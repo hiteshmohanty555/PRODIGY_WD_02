@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f1f1f1;
+    }
+
+    .stopwatch-container {
+      text-align: center;
+    }
+
+    .time {
+      font-size: 2em;
+      font-family: 'Arial', sans-serif;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      margin: 0 10px;
+      cursor: pointer;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <title>Stopwatch</title>
+</head>
+<body>
+
+<div class="stopwatch-container">
+  <div class="time" id="display">00:00:00</div>
+  <div class="controls">
+    <button onclick="startStopwatch()">Start</button>
+    <button onclick="stopStopwatch()">Stop</button>
+    <button onclick="resetStopwatch()">Reset</button>
+  </div>
+</div>
+
+<script>
+  let timer;
+  let isRunning = false;
+  let seconds = 0, minutes = 0, hours = 0;
+
+  function startStopwatch() {
+    if (!isRunning) {
+      timer = setInterval(updateTime, 1000);
+      isRunning = true;
+    }
+  }
+
+  function stopStopwatch() {
+    clearInterval(timer);
+    isRunning = false;
+  }
+
+  function resetStopwatch() {
+    clearInterval(timer);
+    isRunning = false;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    updateTime();
+  }
+
+  function updateTime() {
+    seconds++;
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
+
+    const formattedTime = `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)}`;
+    document.getElementById('display').textContent = formattedTime;
+  }
+
+  function padNumber(number) {
+    return number < 10 ? `0${number}` : number;
+  }
+</script>
+
+</body>
+</html>
